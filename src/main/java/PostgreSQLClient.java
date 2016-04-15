@@ -504,6 +504,41 @@ public class PostgreSQLClient {
 	}
 
 
+	public String getPassword(String uname) throws Exception{
 
+		String sql = "SELECT password FROM users WHERE uname = ?";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+		String pass = "";
+		
+		try {
+
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, uname);
+			results = statement.executeQuery();
+			
+			while (results.next()) {
+				pass = results.getString("password");
+			}
+			
+			return pass;
+
+		} finally {
+			if (results != null) {
+				results.close();
+			}
+			
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}
+		}
+
+	}
 
 }

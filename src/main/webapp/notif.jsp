@@ -9,9 +9,9 @@
 
 <body>
 
-	<% if (request.getAttribute("msg") != null) { %>
+	<% if (request.getSession().getAttribute("uname") != null) { %>
         	  <h4><%= request.getAttribute("msg") %></h4>
-    <% } %>
+    <% }else response.sendRedirect("/index.jsp"); %>
 
 	<h4>Set Notification</h4>
 
@@ -40,9 +40,10 @@
 		<input type="checkbox" name="loc" value="valenzuela"/>Valenzuela<br/>
 		<br/>
 		<input type="submit" value="Submit"/>
-
 	</form>
 
+	<br/><br/>
+	<a href="/Logout">Logout</a>
 </body>
 
 </html>

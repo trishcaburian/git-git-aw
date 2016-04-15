@@ -13,6 +13,7 @@ public class SetNotif extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String choice = request.getParameter("notif");
+		String uname = (String)request.getSession().getAttribute("uname");
 
 		PrintWriter out = response.getWriter();
 
