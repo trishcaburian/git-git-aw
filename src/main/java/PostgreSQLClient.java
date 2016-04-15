@@ -112,7 +112,20 @@ public class PostgreSQLClient {
         String sql = "CREATE TABLE IF NOT EXISTS users (uid serial, lname text, fname text, province text," +
                      		"city text, brgy text, street text, mobile text, uname text, password text, PRIMARY KEY(uid, uname));" +
                      "CREATE TABLE IF NOT EXISTS location (locid serial primary key, region text, province text);" +
-                     "CREATE TABLE IF NOT EXISTS user_loc (uname text, locid integer, PRIMARY KEY(uname, locid));";
+                     "CREATE TABLE IF NOT EXISTS user_loc (uname text, locid integer, PRIMARY KEY(uname, locid));" +
+					 "CREATE TABLE IF NOT EXISTS event "
+                + "(eID serial primary key NOT NULL, "
+                + "eName varchar(45) NOT NULL UNIQUE,"
+                + "eDescription varchar(45) NOT NULL,"
+                + "eDate varchar(45) NOT NULL, "
+                + "startTime varchar(45) NOT NULL, "
+                + "endTime varchar(45) NOT NULL, "
+				+ "eventLocation varchar(45) NOT NULL"
+                + ");"+
+				"CREATE TABLE IF NOT EXISTS event_loc "
+                + "(eID integer NOT NULL, "
+                + "locID integer NOT NULL,"
+                + "PRIMARY KEY(eID, locID));";
 
         Connection connection = null;
         PreparedStatement statement = null;
@@ -287,15 +300,11 @@ public class PostgreSQLClient {
 		}
 	}
 	
-	/*public void addEvent_loc() throws Exception{
+	public void addEvent_loc(int eID, int locID) throws Exception{
 
-		getLocID(String province)
+		//getLocID(String province);
 	
-		String sql = "INSERT INTO event_loc (eid, locid) VALUES (?, ?)"
-
-		String locID = "SELECT locid FROM location, event WHERE province = eventLocation";
-		String eID = SELECT eID FROM event, location WHERE eName 
-		
+		String sql = "INSERT INTO event_loc (eid, locid) VALUES (?, ?)";
 		
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -303,18 +312,11 @@ public class PostgreSQLClient {
 		try {
 			connection = getConnection();
 			connection.setAutoCommit(false);
-			statement = connection.prepareStatement(locID);
-			results = statement.executeQuery();
-			
-			int locID = results;
-			int eID 
-			
-			connection = getConnection();
-			connection.setAutoCommit(false);
 			statement = connection.prepareStatement(sql);
-			statement.setString(1,eID);
-			statement.setString(2,locID);
+			statement.setInt(1,eID);
+			statement.setInt(2,locID);
 			statement.executeUpdate();
+		
 			connection.commit();
 			
 		} catch (SQLException e) {
@@ -335,7 +337,7 @@ public class PostgreSQLClient {
 			}
 		}
 
-	}*/
+	}
 	
 	public List<EventInfo> getAllEvents() throws Exception {
 		String sql = "SELECT * FROM event";
