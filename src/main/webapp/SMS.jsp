@@ -1,5 +1,11 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="java.io.InputStream, main.*, import com.twilio.sdk.TwilioRestClient, import com.twilio.sdk.TwilioRestException, import com.twilio.sdk.resource.factory.SmsFactory, import com.twilio.sdk.resource.instance.Sms, import java.util.HashMap, import java.util.Map"%>
+<%@page import="java.io.InputStream, main.*"%>
+<%@page import="com.twilio.sdk.TwilioRestClient"%>
+<%@page import="com.twilio.sdk.TwilioRestException"%> 
+<%@page import="com.twilio.sdk.resource.factory.SmsFactory%> 
+<%@page import="com.twilio.sdk.resource.instance.Sms%> 
+<%@page import="java.util.HashMap%>
+<%@page import="java.util.Map"%>
 <% 
 		Sms msg = null;
         TwilioConnect connect = new TwilioConnect();
@@ -21,6 +27,5 @@
         catch (TwilioRestException e) {
             throw new ServletException(e);
 		}
-			out.println("Sent message id: " + msg.getSid());
-		}
+		out.println("Sent message id: " + msg.getSid());
 %>
