@@ -264,13 +264,13 @@ public class PostgreSQLClient {
 			statement.setString(1, ename);
 			results = statement.executeQuery();
 			//List<Integer> eventID = new ArrayList<Integer>();
-			
+			int eventID = 0;
 			while (results.next()) {
 				//eventID.add(results.getInt("eID"));
-				return results.getInt("eID");
+				eventID = results.getInt("eID");
 			}
 			
-			//return results.getInt("eID");
+			return eventID;
 
 		} finally {
 			if (results != null) {
@@ -383,15 +383,15 @@ public class PostgreSQLClient {
 			statement = connection.prepareStatement(sql);
 			statement.setInt(1,loc_id);
 			results = statement.executeQuery();
-
+			String locName="";
 			
 			while(results.next()){
-
-				return results.getString("province");
+				locName = results.getString("province");
+				//return results.getString("province");
 
 			}
 			
-
+			return locName;
 		} finally {
 			if (results != null) {
 				results.close();
