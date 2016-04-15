@@ -15,4 +15,12 @@
         params.put("To", request.getParameter("sendto"));
         
         SmsFactory msgFactory = tw_client.getAccount().getSmsFactory();
+		try {
+            msg = msgFactory.create(params);
+        }
+        catch (TwilioRestException e) {
+            throw new ServletException(e);
+		}
+			out.println("Sent message id: " + msg.getSid());
+		}
 %>
