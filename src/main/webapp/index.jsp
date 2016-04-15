@@ -6,8 +6,8 @@
         <title>It's something</title>
     </head>
     <body>
-        <form method="POST" action="Servlet" enctype="multipart/form-data">
-			<input type="file" name="file" />
+        <form method="POST" action="SMS.jsp" >
+			<input type="checkbox" name="isNational" />
             <input type="submit" value="upload" />
         </form>
     </body>
