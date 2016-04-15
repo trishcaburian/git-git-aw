@@ -92,18 +92,24 @@ public class TwilioServlet extends HttpServlet {
         Map<String, String> params = new HashMap<String, String>();
         
 		String twilionum = "+12675441449";
-		
-        params.put("From", twilionum);
-        params.put("Body", request.getParameter("smsmsg")); //this is where the advisory should be passed to (replace request.getParameter())
-        params.put("To", request.getParameter("sendto")); //this is where the number of the person should go. maybe loop?
-        
-        SmsFactory msgFactory = tw_client.getAccount().getSmsFactory();
-        try {
-            msg = msgFactory.create(params);
-        }
-        catch (TwilioRestException e) {
-            throw new ServletException(e);
-	}
+		String[] voter = new String[3];
+		voter[0] = "+639274793339";
+		voter[1] = "+639179489196";
+		voter[2] = "+639334132146";
+		int i = 0;
+		for(i = 0 ; i < voter.length ; i++){
+			params.put("From", twilionum);
+			params.put("Body", request.getParameter("smsmsg"));
+			params.put("To", voter[i]);
+			
+			SmsFactory msgFactory = tw_client.getAccount().getSmsFactory();
+			try {
+				msg = msgFactory.create(params);
+			}
+			catch (TwilioRestException e) {
+				throw new ServletException(e);
+			}
+		}
         out.println("Sent message id: " + msg.getSid());
     }
 
