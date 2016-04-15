@@ -9,12 +9,17 @@
 
 <body>
 
-	<% if (request.getSession().getAttribute("uname") != null) { %>
+	<% if (request.getSession().getAttribute("uname") != null) { 
+		if(request.getAttribute("msg") != null)
+	%>
         	  <h4><%= request.getAttribute("msg") %></h4>
     <% }else response.sendRedirect("/index.jsp"); %>
 
 	<h4>Set Notification</h4>
 
+	<% if (request.getAttribute("notifmsg") != null) { %>
+        	  <h4><%= request.getAttribute("notifmsg") %></h4>
+    <% } %>
 
 	<form method="POST" action="/SetNotif">
 	

@@ -670,4 +670,38 @@ public class PostgreSQLClient {
 
 	}
 
+	public List<String> getMobile(String location) throws Exception {
+		String sql = "SELECT mobile FROM users, user_loc, location  WHERE location.province = ? AND location.locid = user_loc.locid AND users.uname = user_loc.uname";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+		
+		try {
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, location);
+			results = statement.executeQuery();
+			List<String> loc = new ArrayList<String>();
+			
+			while (results.next()) {
+				loc.add(results.getString("mobile"));
+			}
+			
+			return loc;
+
+		} finally {
+			if (results != null) {
+				results.close();
+			}
+			
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}
+		}
+	}
+
 }
