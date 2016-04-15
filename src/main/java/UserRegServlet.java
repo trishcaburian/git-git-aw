@@ -18,10 +18,9 @@ import javax.servlet.annotation.WebServlet;
 @WebServlet(name = "UserRegServlet", urlPatterns = {"/UserRegServlet"})
 public class UserRegServlet extends HttpServlet 
 {
-	/*private CloudantClientClass db = new CloudantClientClass();
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	
+    	/*
     	JSONObject obj = new JSONObject();
 
     	PrintWriter out = response.getWriter();

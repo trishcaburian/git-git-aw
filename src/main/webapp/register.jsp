@@ -45,6 +45,9 @@
 		<br/>
 		<input type="submit" value="Submit"/>
 	</form>
+
+	<form method="POST" action="UserRegServlet">
+
 		</body>
 
 </html>

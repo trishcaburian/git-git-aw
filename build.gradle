@@ -7,10 +7,6 @@ war {
 
 repositories {
     mavenCentral()
-
-    maven{
-    	url "http://repo.gradle.org/gradle/repo"
-    }
 }
 
 dependencies {
@@ -20,10 +16,8 @@ dependencies {
 	compile 'commons-io:commons-io:2.4'
 	compile 'javax.validation:validation-api:1.1.0.Final'
 	compile 'org.glassfish.main.core:glassfish:4.1.1'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version:'3.4'
-    compile 'com.cloudant:cloudant-client:2.3.0'
-    compile 'org.cloudfoundry:cloudfoundry-runtime:0.8.4'
+    compile 'org.apache.commons:commons-lang3:3.4'
     compile 'javax.servlet:javax.servlet-api:3.1.0'
-	
 	compile 'org.apache.clerezza.ext:org.json.simple:0.4'
+    compile 'org.jumpmind.symmetric.jdbc:postgresql:9.2-1002-jdbc4'
 }
