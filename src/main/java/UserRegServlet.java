@@ -1,12 +1,10 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,44 +18,41 @@ public class UserRegServlet extends HttpServlet
 {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	/*
-    	JSONObject obj = new JSONObject();
 
     	PrintWriter out = response.getWriter();
 
-    	obj.put("lname", request.getParameter("lname"));
-    	obj.put("fname", request.getParameter("fname"));
-    	obj.put("province", request.getParameter("province"));
-    	obj.put("city", request.getParameter("city"));
-    	obj.put("barangay", request.getParameter("barangay"));
-    	obj.put("street", request.getParameter("street"));
-    	obj.put("mobile", request.getParameter("mobile"));
+        PostgreSQLClient db = new PostgreSQLClient();
 
-    	if(request.getParameter("notif").equals("location")){
+    	HashMap<String, String> hm = new HashMap<String, String>();
 
-    		JSONArray arr = new JSONArray();
-    		String[] loc = request.getParameterValues("loc");
+        hm.put("lname", request.getParameter("lname"));
+        hm.put("fname", request.getParameter("fname"));
+        hm.put("province", request.getParameter("province"));
+        hm.put("city", request.getParameter("city"));
+        hm.put("brgy", request.getParameter("brgy"));
+        hm.put("street", request.getParameter("street"));
+        hm.put("mobile", request.getParameter("mobile"));
+        hm.put("uname", request.getParameter("uname"));
+        hm.put("password", request.getParameter("password"));
 
-    		for(String s: loc)
-    			arr.add(s);
+        int result = 0;
 
-    		obj.put("locations", arr);
-    	}
+        try{
+            result = db.addUser(hm);
+            request.setAttribute("msg", "Registration Successful!");
+            request.getSession().setAttribute("uname", request.getParameter("uname"));
+        }catch (Exception e){
+            out.println(e.getMessage());
+            request.setAttribute("msg", e.getMessage());
+        }finally{
 
-    	out.println(obj.toString());
+            response.setContentType("text/html");
+            response.setStatus(200);
 
-    	try{
-    		out.println(db.addEntry(obj));
-    	}catch(Exception e){
-    		out.println(e.getMessage());
-    	}
-    	
-    	
-
-    	/*
-		response.setContentType("text/html");
-        response.setStatus(200);
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
-        */
+            if(result > 0)
+                request.getRequestDispatcher("/notif.jsp").forward(request, response);
+            else
+                request.getRequestDispatcher("/register.jsp").forward(request, response);
+        }
     }
 }

@@ -1,6 +1,7 @@
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,24 +17,12 @@ import org.json.simple.parser.ParseException;
 
 public class PostgreSQLClient {
 
-	String name;
-	String host;
-	Long port;
-	String user;
-	String password;
-
 
 	public PostgreSQLClient(){
-		
-		this.name = "df90a59d8eb474e218fa1aa74bdc00b1d";
-		this.host = "198.11.228.49";
-		this.port = 5433L;
-		this.user = "udf776e7f69ab42518b24e08c60630769";
-		this.password = "p290f87477a394ecaaea08fdcaabcc2e4";
-		
+
 	}
 
-	public int getAllLocations() throws Exception {
+	public List<String> getAllLocations() throws Exception {
 		String sql = "SELECT province FROM location ORDER BY locid DESC";
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -49,7 +38,7 @@ public class PostgreSQLClient {
 				loc.add(results.getString("province"));
 			}
 			
-			return loc.size();
+			return loc;
 
 		} finally {
 			if (results != null) {
@@ -118,10 +107,10 @@ public class PostgreSQLClient {
 	}
 
 	public void createTable() throws Exception {
-        String sql = "CREATE TABLE IF NOT EXISTS users (uid serial primary key, lname text, fname text, province text," +
-                     		"city text, brgy text, street text, mobile text, uname text, password text);" +
+        String sql = "CREATE TABLE IF NOT EXISTS users (uid serial, lname text, fname text, province text," +
+                     		"city text, brgy text, street text, mobile text, uname text, password text, PRIMARY KEY(uid, uname));" +
                      "CREATE TABLE IF NOT EXISTS location (locid serial primary key, region text, province text);" +
-                     "CREATE TABLE IF NOT EXISTS user_loc (uid integer, locid integer, PRIMARY KEY(uid, locid));";
+                     "CREATE TABLE IF NOT EXISTS user_loc (uname text, locid integer, PRIMARY KEY(uname, locid));";
 
         Connection connection = null;
         PreparedStatement statement = null;
@@ -141,8 +130,8 @@ public class PostgreSQLClient {
         }
     }
 
-    //static funct
-	private Connection getConnection() throws Exception {
+
+	private static Connection getConnection() throws Exception {
 
         Map<String, String> env = System.getenv();
 
@@ -177,5 +166,190 @@ public class PostgreSQLClient {
 
         throw new Exception("No PostgreSQL service URL found. Make sure you have bound the correct services to your app.");
 	}
+
+	public int addUser(HashMap<String, String> hm) throws Exception{
+
+		String sql = "INSERT INTO users (lname, fname, province, city, brgy, street, mobile, uname, password) VALUES (?,?,?,?,?,?,?,?,?)";
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+
+		try {
+
+			connection = getConnection();
+			connection.setAutoCommit(false);
+			statement = connection.prepareStatement(sql);
+			
+			statement.setString(1, hm.get("lname"));
+			statement.setString(2, hm.get("fname"));
+			statement.setString(3, hm.get("province"));
+			statement.setString(4, hm.get("city"));
+			statement.setString(5, hm.get("brgy"));
+			statement.setString(6, hm.get("street"));
+			statement.setString(7, hm.get("mobile"));
+			statement.setString(8, hm.get("uname"));
+			statement.setString(9, hm.get("password"));
+
+
+			int rows = statement.executeUpdate();
+			connection.commit();
+			
+			return rows;
+		} catch (SQLException e) {
+			SQLException next = e.getNextException();
+			
+			if (next != null) {
+				throw next;
+			}
+			
+			throw e;
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}
+		}
+
+	}
+
+
+	public int deleteAllLoc() throws Exception {
+		String sql = "DROP TABLE location";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+
+			return statement.executeUpdate();
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}	
+		}
+	}
+
+	public int deleteAllUser() throws Exception {
+		String sql = "DROP TABLE users";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+
+			return statement.executeUpdate();
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}	
+		}
+	}
+
+	public int deleteAllUserLoc() throws Exception {
+		String sql = "DROP TABLE user_loc";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+
+			return statement.executeUpdate();
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}	
+		}
+	}
+
+	public int deleteAllEvent() throws Exception {
+		String sql = "DROP TABLE event";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+
+			return statement.executeUpdate();
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}	
+		}
+	}
+
+	public int deleteAllEventLoc() throws Exception {
+		String sql = "DROP TABLE event_loc";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+
+			return statement.executeUpdate();
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}	
+		}
+	}
+
+	public int getLocID(String province) throws Exception {
+		String sql = "SELECT locid FROM location WHERE province = ?";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+		
+		try {
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+			results = statement.executeQuery();
+			List<Integer> loc = new ArrayList<Integer>();
+			
+			while (results.next()) {
+				loc.add(results.getInt("locid"));
+			}
+			
+			return loc.get(0);
+
+		} finally {
+			if (results != null) {
+				results.close();
+			}
+			
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}
+		}
+	}
+
+
+
 
 }
