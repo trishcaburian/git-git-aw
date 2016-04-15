@@ -15,26 +15,26 @@ import org.json.simple.parser.ParseException;
 
 
 public class PostgreSQLClient {
-/*
+
 	String name;
 	String host;
 	Long port;
 	String user;
 	String password;
 
-*/
+
 	public PostgreSQLClient(){
-		/*
-		this.name = "de5c229ee8634450ba0167da5d9a7d7cc";
+		
+		this.name = "df90a59d8eb474e218fa1aa74bdc00b1d";
 		this.host = "198.11.228.49";
 		this.port = 5433L;
-		this.user = "u4155bb930ceb4b3991ae17cbc795794a";
-		this.password = "pda76652263ec48a8a6f8cd3875149c10";
-		*/
+		this.user = "udf776e7f69ab42518b24e08c60630769";
+		this.password = "p290f87477a394ecaaea08fdcaabcc2e4";
+		
 	}
 
 	public int getAllLocations() throws Exception {
-		String sql = "SELECT province FROM location ORDER BY id DESC";
+		String sql = "SELECT province FROM location ORDER BY locid DESC";
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet results = null;
@@ -67,24 +67,7 @@ public class PostgreSQLClient {
 	}
 
 	public int addLocation() throws Exception{
-		/*
-		String sql = "INSERT INTO location (region, province) VALUES ('ncr', 'caloocan');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'makati');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'malabon');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'mandaluyong');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'manila');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'marikina');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'muntinlupa');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'navotas');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'paranaque');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'pasay');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'pasig');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'pateros');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'quezon');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'san juan');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'taguig');"+
-					 "INSERT INTO location (region, province) VALUES ('ncr', 'valenzuela');";
-		*/
+
 		String sql = "INSERT INTO location (region, province) VALUES ('ncr', 'caloocan'),"+
 					 "('ncr', 'makati'),"+
 					 "('ncr', 'malabon'),"+
@@ -138,7 +121,7 @@ public class PostgreSQLClient {
         String sql = "CREATE TABLE IF NOT EXISTS users (uid serial primary key, lname text, fname text, province text," +
                      		"city text, brgy text, street text, mobile text, uname text, password text);" +
                      "CREATE TABLE IF NOT EXISTS location (locid serial primary key, region text, province text);" +
-                     "CREATE TABLE IF NOT EXISTS user_loc (uid integer, locid integer);";
+                     "CREATE TABLE IF NOT EXISTS user_loc (uid integer, locid integer, PRIMARY KEY(uid, locid));";
 
         Connection connection = null;
         PreparedStatement statement = null;
@@ -158,8 +141,8 @@ public class PostgreSQLClient {
         }
     }
 
-
-	private static Connection getConnection() throws Exception {
+    //static funct
+	private Connection getConnection() throws Exception {
 
         Map<String, String> env = System.getenv();
 
@@ -193,7 +176,6 @@ public class PostgreSQLClient {
         }
 
         throw new Exception("No PostgreSQL service URL found. Make sure you have bound the correct services to your app.");
-
 	}
 
 }

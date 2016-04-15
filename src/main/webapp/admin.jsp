@@ -7,7 +7,7 @@
     </head>
     <body>
     
-    	<a href="/PopulateLocation">Populate Location</a> 
+    	<a href="/PopulateLocation">Populate Location</a>
         
     </body>
 </html>
