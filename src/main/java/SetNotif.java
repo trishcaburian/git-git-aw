@@ -25,7 +25,7 @@ public class SetNotif extends HttpServlet {
 				String[] loc = request.getParameterValues("loc");
 
 				for(String s: loc){
-					//out.println(db.getLocID(s));
+					out.println(db.getLocID(s));
 					out.println(s);
 				}
 
