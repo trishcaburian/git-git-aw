@@ -29,7 +29,7 @@ public class EventRegServlet extends HttpServlet
     	String eDate = request.getParameter("datepicker").toString();
 		String startTime = request.getParameter("startTime").toString();
     	String endTime = request.getParameter("endTime").toString();
-    	out.println("oks date and time :)");
+    	//out.println("oks date and time :)");
 		
 		/*SimpleDateFormat format = new SimpleDateFormat("MMddyyyy");
 		out.println("oks simpledateformat :)");
@@ -48,8 +48,8 @@ public class EventRegServlet extends HttpServlet
 		//out.println("oks postgre instantiate :)");
 		//	db.createEventTable();
 			//out.println("oks createEventTable :)");
-		//	db.addEvent(eName, eDesc, eDate, startTime, endTime, eventLocation);
-			//out.println("oks addEvent :)");
+			db.addEvent(eName, eDesc, eDate, startTime, endTime, eventLocation);
+			out.println("oks addEvent :)");
 		//	List<EventInfo> eventLoc = db.getAllEvents();
 			//out.println("oks List EventInfo :)");
 			/*
@@ -58,6 +58,10 @@ public class EventRegServlet extends HttpServlet
 			}*/
 			int ehID = db.getEID("sample");
 			out.println(ehID);
+			int locID = db.getLocID("manila");
+			out.println(locID);
+			db.addEvent_loc(ehID, locID);
+			out.println("yey!");
 			
 		}catch(Exception e){
 			out.println(e.getMessage());
