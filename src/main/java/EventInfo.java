@@ -6,9 +6,9 @@ public class EventInfo {
 
 	String eName;
 	String eDesc;
-	Date eDate;
-	Time startTime;
-    Time endTime;
+	String eDate;
+	String startTime;
+    String endTime;
     String eventLocation;
 	
 	  public String geteName() {
@@ -19,15 +19,15 @@ public class EventInfo {
         return eDesc;
     }
 
-    public Date geteDate() {
+    public String geteDate() {
         return eDate;
     }
 
-    public Time getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public Time getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 

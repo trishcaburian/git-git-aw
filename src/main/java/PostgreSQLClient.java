@@ -285,8 +285,8 @@ public class PostgreSQLClient {
 		}
 	}
 	
-/*	public String getSpecificLocationEvent(int ) throws Exception {
-		String sql = "SELECT event FROM eName, eDescription, eDate, startTime, endTime";
+	public String getLocationName(int loc_id) throws Exception {
+		String sql = "SELECT province FROM location where locid = ?";
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet results = null;
@@ -294,14 +294,10 @@ public class PostgreSQLClient {
 		try {
 			connection = getConnection();
 			statement = connection.prepareStatement(sql);
+			statement.setInt(1,loc_id);
 			results = statement.executeQuery();
-			List<String> events = new ArrayList<String>();
 			
-			while (results.next()) {
-				events.add(results.getString("province"));
-			}
-			
-			return events.size();
+			return results;
 
 		} finally {
 			if (results != null) {
@@ -316,7 +312,7 @@ public class PostgreSQLClient {
 				connection.close();
 			}
 		}
-	}*/
+	}
 
 	public int addUser(HashMap<String, String> hm) throws Exception{
 
