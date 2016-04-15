@@ -45,17 +45,19 @@ public class EventRegServlet extends HttpServlet
     	
 
 		PostgreSQLClient db = new PostgreSQLClient();
-		out.println("oks postgre instantiate :)");
-			db.createEventTable();
-			out.println("oks createEventTable :)");
-			db.addEvent(eName, eDesc, eDate, startTime, endTime, eventLocation);
-			out.println("oks addEvent :)");
-			List<EventInfo> eventLoc = db.getAllEvents();
-			out.println("oks List EventInfo :)");
-			
+		//out.println("oks postgre instantiate :)");
+		//	db.createEventTable();
+			//out.println("oks createEventTable :)");
+		//	db.addEvent(eName, eDesc, eDate, startTime, endTime, eventLocation);
+			//out.println("oks addEvent :)");
+		//	List<EventInfo> eventLoc = db.getAllEvents();
+			//out.println("oks List EventInfo :)");
+			/*
 			for(int i =0;i<eventLoc.size();i++){
 				out.println(eventLoc.get(i));
-			}
+			}*/
+			int ehID = db.getEID("sample");
+			out.println(ehID);
 			
 		}catch(Exception e){
 			out.println(e.getMessage());

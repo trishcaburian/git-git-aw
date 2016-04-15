@@ -43,15 +43,15 @@ public class EventInfo {
         this.eDesc = eDesc;
     }
 
-    public void seteDate(Date eDate) {
+    public void seteDate(String eDate) {
         this.eDate = eDate;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 

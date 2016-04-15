@@ -174,7 +174,7 @@ public class PostgreSQLClient {
         PreparedStatement statement = null;
         String createEventTB = "CREATE TABLE IF NOT EXISTS event "
                 + "(eID serial primary key NOT NULL, "
-                + "eName varchar(45) NOT NULL,"
+                + "eName varchar(45) NOT NULL UNIQUE,"
                 + "eDescription varchar(45) NOT NULL,"
                 + "eDate varchar(45) NOT NULL, "
                 + "startTime varchar(45) NOT NULL, "
@@ -249,6 +249,93 @@ public class PostgreSQLClient {
 		}
 
 	}
+	
+	public int getEID(String ename) throws Exception {
+
+		String sql = "SELECT eID FROM event WHERE ename = ?";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+		
+		try {
+
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, ename);
+			results = statement.executeQuery();
+			//List<Integer> eventID = new ArrayList<Integer>();
+			
+			while (results.next()) {
+				//eventID.add(results.getInt("eID"));
+				return results.getInt("eID");
+			}
+			
+			//return results.getInt("eID");
+
+		} finally {
+			if (results != null) {
+				results.close();
+			}
+			
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}
+		}
+	}
+	
+	/*public void addEvent_loc() throws Exception{
+
+		getLocID(String province)
+	
+		String sql = "INSERT INTO event_loc (eid, locid) VALUES (?, ?)"
+
+		String locID = "SELECT locid FROM location, event WHERE province = eventLocation";
+		String eID = SELECT eID FROM event, location WHERE eName 
+		
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+		try {
+			connection = getConnection();
+			connection.setAutoCommit(false);
+			statement = connection.prepareStatement(locID);
+			results = statement.executeQuery();
+			
+			int locID = results;
+			int eID 
+			
+			connection = getConnection();
+			connection.setAutoCommit(false);
+			statement = connection.prepareStatement(sql);
+			statement.setString(1,eID);
+			statement.setString(2,locID);
+			statement.executeUpdate();
+			connection.commit();
+			
+		} catch (SQLException e) {
+			SQLException next = e.getNextException();
+			
+			if (next != null) {
+				throw next;
+			}
+			
+			throw e;
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}
+		}
+
+	}*/
 	
 	public List<EventInfo> getAllEvents() throws Exception {
 		String sql = "SELECT * FROM event";
