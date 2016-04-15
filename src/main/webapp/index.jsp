@@ -3,11 +3,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Index</title>
+        <title>Log in!</title>
     </head>
     <body>
     
-        Hello
+        <h2>Comelec </h2>
+
+        <form method="POST" action="/Login">
+
+        	Username: <input type="text" name="uname"/> <br/>
+        	Password: <input type="password" name="password"/> <br/>
+        	<input type="submit" value="Log in">
+        </form>
+        <br/>
+        <a href="/register.jsp">Register!</a>
         
     </body>
 </html>
