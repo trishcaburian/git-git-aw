@@ -464,14 +464,17 @@ public class PostgreSQLClient {
 	}
 
 	public int getLocID(String province) throws Exception {
+
 		String sql = "SELECT locid FROM location WHERE province = ?";
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet results = null;
 		
 		try {
+
 			connection = getConnection();
 			statement = connection.prepareStatement(sql);
+			statement.setString(1, province);
 			results = statement.executeQuery();
 			List<Integer> loc = new ArrayList<Integer>();
 			
