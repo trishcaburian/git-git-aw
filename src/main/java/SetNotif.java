@@ -15,9 +15,7 @@ public class SetNotif extends HttpServlet {
 		String choice = request.getParameter("notif");
 		String uname = (String)request.getSession().getAttribute("uname");
 
-		PrintWriter out = response.getWriter();
 
-		out.println(choice);
 		if(choice.equals("location")){
 
 			try{
@@ -26,12 +24,19 @@ public class SetNotif extends HttpServlet {
 				String[] loc = request.getParameterValues("loc");
 
 				for(String s: loc){
-					out.println(db.getLocID(s));
-					out.println(s);
+
+					int locid = db.getLocID(s);
+					db.addUserLoc(uname, locid);
 				}
 
+				request.setAttribute("notifmsg", "Notification Update Successful!");
+
 			}catch(Exception e){
-				out.println(e.getMessage());
+				request.setAttribute("notifmsg", e.getMessage());
+			}finally{
+				response.setContentType("text/html");
+            	response.setStatus(200);
+            	request.getRequestDispatcher("/notif.jsp").forward(request, response);
 			}
 		}
     	

@@ -296,8 +296,14 @@ public class PostgreSQLClient {
 			statement = connection.prepareStatement(sql);
 			statement.setInt(1,loc_id);
 			results = statement.executeQuery();
+
 			
-			return results;
+			while(results.next()){
+
+				return results.getString("province");
+
+			}
+			
 
 		} finally {
 			if (results != null) {
@@ -526,6 +532,46 @@ public class PostgreSQLClient {
 				results.close();
 			}
 			
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}
+		}
+
+	}
+
+	public int addUserLoc(String uname, int locid) throws Exception{
+		
+		
+		String sql = "INSERT INTO user_loc (uname, locid) VALUES (?, ?);";
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int result = 0;
+
+		try {
+			connection = getConnection();
+			connection.setAutoCommit(false);
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, uname);
+			statement.setInt(2, locid);
+			result = statement.executeUpdate();
+			connection.commit();
+
+			return result;
+			
+		} catch (SQLException e) {
+			SQLException next = e.getNextException();
+			
+			if (next != null) {
+				throw next;
+			}
+			
+			throw e;
+		} finally {
 			if (statement != null) {
 				statement.close();
 			}
