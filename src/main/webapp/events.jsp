@@ -57,22 +57,22 @@
 			Event Description: <input type="text" name="eventDesc"/></br></br>
 			Location: 
 			<h5>National Capital Region</h5>
-			<input type="radio" name="loc" value="caloocan"/>Caloocan<br/>
-			<input type="radio" name="loc" value="makati"/>Makati<br/>
-			<input type="radio" name="loc" value="malabon"/>Malabon<br/>
-			<input type="radio" name="loc" value="mandaluyong"/>Mandaluyong<br/>
-			<input type="radio" name="loc" value="manila"/>Manila<br/>
-			<input type="radio" name="loc" value="marikina"/>Marikina<br/>
-			<input type="radio" name="loc" value="muntinlupa"/>Muntinlupa<br/>
-			<input type="radio" name="loc" value="navotas"/>Navotas<br/>
-			<input type="radio" name="loc" value="paranaque"/>Paranaque<br/>
-			<input type="radio" name="loc" value="pasay"/>Pasay<br/>
-			<input type="radio" name="loc" value="pasig"/>Pasig<br/>
-			<input type="radio" name="loc" value="pateros"/>Pateros<br/>
-			<input type="radio" name="loc" value="quezon"/>Quezon<br/>
-			<input type="radio" name="loc" value="san juan"/>San Juan<br/>
-			<input type="radio" name="loc" value="taguig"/>Taguig<br/>
-			<input type="radio" name="loc" value="valenzuela"/>Valenzuela<br/>
+			<input type="radio" name="eventLocation" value="caloocan"/>Caloocan<br/>
+			<input type="radio" name="eventLocation" value="makati"/>Makati<br/>
+			<input type="radio" name="eventLocation" value="malabon"/>Malabon<br/>
+			<input type="radio" name="eventLocation" value="mandaluyong"/>Mandaluyong<br/>
+			<input type="radio" name="eventLocation" value="manila"/>Manila<br/>
+			<input type="radio" name="eventLocation" value="marikina"/>Marikina<br/>
+			<input type="radio" name="eventLocation" value="muntinlupa"/>Muntinlupa<br/>
+			<input type="radio" name="eventLocation" value="navotas"/>Navotas<br/>
+			<input type="radio" name="eventLocation" value="paranaque"/>Paranaque<br/>
+			<input type="radio" name="eventLocation" value="pasay"/>Pasay<br/>
+			<input type="radio" name="eventLocation" value="pasig"/>Pasig<br/>
+			<input type="radio" name="eventLocation" value="pateros"/>Pateros<br/>
+			<input type="radio" name="eventLocation" value="quezon"/>Quezon<br/>
+			<input type="radio" name="eventLocation" value="san juan"/>San Juan<br/>
+			<input type="radio" name="eventLocation" value="taguig"/>Taguig<br/>
+			<input type="radio" name="eventLocation" value="valenzuela"/>Valenzuela<br/>
 			<br/>
 			Date: <input type="date" id="datepicker" name="datepicker" oninput="validDate(this.value, this)"></br>
 			Start Time: <input type="time" name="startTime"></br>

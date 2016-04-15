@@ -13,23 +13,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.util.Date;
+import java.sql.Time;
 
 public class PostgreSQLClient {
 
-	String name;
-	String host;
-	Long port;
-	String user;
-	String password;
-
-
 	public PostgreSQLClient(){
 		
-		this.name = "df90a59d8eb474e218fa1aa74bdc00b1d";
-		this.host = "198.11.228.49";
-		this.port = 5433L;
-		this.user = "udf776e7f69ab42518b24e08c60630769";
-		this.password = "p290f87477a394ecaaea08fdcaabcc2e4";
 		
 	}
 
@@ -177,5 +167,154 @@ public class PostgreSQLClient {
 
         throw new Exception("No PostgreSQL service URL found. Make sure you have bound the correct services to your app.");
 	}
+	
+	public void createEventTable() throws Exception {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        String createEventTB = "CREATE TABLE IF NOT EXISTS event "
+                + "(eID serial primary key NOT NULL, "
+                + "eName varchar(45) NOT NULL,"
+                + "eDescription varchar(45) NOT NULL,"
+                + "eDate varchar(45) NOT NULL, "
+                + "startTime varchar(45) NOT NULL, "
+                + "endTime varchar(45) NOT NULL, "
+				+ "eventLocation varchar(45) NOT NULL"
+                + ");";
+				
+		/*createquery = "CREATE TABLE IF NOT EXISTS location "
+                + "(locID serial NOT NULL PRIMARY KEY, "
+                + "region varchar(45) NOT NULL,"
+                + "Province varchar(45) NOT NULL,"
+                + ");";*/
+				
+		String createEventLocTB = "CREATE TABLE IF NOT EXISTS event_loc "
+                + "(eID integer NOT NULL, "
+                + "locID integer NOT NULL,"
+                + "PRIMARY KEY(eID, locID));";
+	
+
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(createEventTB);
+            statement.executeUpdate();
+			statement = connection.prepareStatement(createEventLocTB);
+            statement.executeUpdate();
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+	
+	public void addEvent(String eName, String eDescription, String eDate, String startTime, String endTime, String eventLocation) throws Exception{
+		
+		
+		String sql = "INSERT INTO event (eName, eDescription, eDate, startTime, endTime, eventLocation) VALUES (?, ?, ?, ?, ?, ?);";
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = getConnection();
+			connection.setAutoCommit(false);
+			statement = connection.prepareStatement(sql);
+			statement.setString(1,eName);
+			statement.setString(2,eDescription);
+			statement.setString(3,eDate);
+			statement.setString(4,startTime);
+			statement.setString(5,endTime);
+			statement.setString(6,eventLocation);
+			statement.executeUpdate();
+			connection.commit();
+			
+		} catch (SQLException e) {
+			SQLException next = e.getNextException();
+			
+			if (next != null) {
+				throw next;
+			}
+			
+			throw e;
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}
+		}
+
+	}
+	
+	public List<EventInfo> getAllEvents() throws Exception {
+		String sql = "SELECT * FROM event";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+		
+		try {
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+			results = statement.executeQuery();
+			List<EventInfo> events = new ArrayList<>();
+			
+			
+			while (results.next()) {
+				EventInfo ei = new EventInfo();
+				events.add(ei);
+			}
+			
+			return events;
+
+		} finally {
+			if (results != null) {
+				results.close();
+			}
+			
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}
+		}
+	}
+	
+/*	public String getSpecificLocationEvent(int ) throws Exception {
+		String sql = "SELECT event FROM eName, eDescription, eDate, startTime, endTime";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+		
+		try {
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+			results = statement.executeQuery();
+			List<String> events = new ArrayList<String>();
+			
+			while (results.next()) {
+				events.add(results.getString("province"));
+			}
+			
+			return events.size();
+
+		} finally {
+			if (results != null) {
+				results.close();
+			}
+			
+			if (statement != null) {
+				statement.close();
+			}
+			
+			if (connection != null) {
+				connection.close();
+			}
+		}
+	}*/
 
 }
