@@ -91,9 +91,11 @@ public class TwilioServlet extends HttpServlet {
         
         Map<String, String> params = new HashMap<String, String>();
         
-        params.put("From", request.getParameter("twilio_num"));
-        params.put("Body", request.getParameter("smsmsg"));
-        params.put("To", request.getParameter("sendto"));
+		String twilionum = "+12675441449";
+		
+        params.put("From", twilionum);
+        params.put("Body", request.getParameter("smsmsg")); //this is where the advisory should be passed to (replace request.getParameter())
+        params.put("To", request.getParameter("sendto")); //this is where the number of the person should go. maybe loop?
         
         SmsFactory msgFactory = tw_client.getAccount().getSmsFactory();
         try {
