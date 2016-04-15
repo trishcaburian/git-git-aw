@@ -34,6 +34,17 @@ public class UserRegServlet extends HttpServlet
     	obj.put("street", request.getParameter("street"));
     	obj.put("mobile", request.getParameter("mobile"));
 
+    	if(request.getParameter("notif").equals("location")){
+
+    		JSONArray arr = new JSONArray();
+    		String[] loc = request.getParameterValues("loc");
+
+    		for(String s: loc)
+    			arr.add(s);
+
+    		obj.put("locations", arr);
+    	}
+
     	out.println(obj.toString());
 
     	try{
