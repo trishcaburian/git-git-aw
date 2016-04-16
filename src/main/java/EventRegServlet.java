@@ -44,7 +44,7 @@ public class EventRegServlet extends HttpServlet
 			List<String> mob = db.getMobile(ehID);
 
 			request.getSession().setAttribute("smsmsg", message);
-			request.getSession().setAttribute("numbers", mob);
+			request.getSession().setAttribute("numbers", ehID);
 			/*
         	out.println("result:");
         	for(String s: mob)
@@ -53,7 +53,7 @@ public class EventRegServlet extends HttpServlet
 
         	response.setContentType("text/html");
             response.setStatus(200);
-            request.getRequestDispatcher("/notif.jsp").forward(request, response);
+            request.getRequestDispatcher("/SMS.jsp").forward(request, response);
 				
 			}catch(Exception e){
 				out.println(e.getMessage());

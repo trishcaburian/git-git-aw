@@ -20,7 +20,8 @@ import com.twilio.sdk.resource.factory.SmsFactory;
 import com.twilio.sdk.resource.instance.Sms;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.List;
+import java.util.ArrayList;
 /**
  *
  * @author yla
@@ -64,7 +65,7 @@ public class TwilioServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
 		PrintWriter out = response.getWriter();
@@ -85,15 +86,23 @@ public class TwilioServlet extends HttpServlet {
 		voter[1] = "9179489196";
 		voter[2] = "9334132146";
 		*/
-		
-		List<String> numlist = request.getSession().getParameter("numbers");
-		
-		//for(int i = 0 ; i < voter.length ; i++){
-		for(String numstring; numlist){
+		try{
+		PostgreSQLClient db = new PostgreSQLClient();
+		//List<String> mob = db.getMobile(request.getSession().getAttribute("numbers"));
+		List<String> mob = db.getMobile(Integer.parseInt(request.getParameter("eid")));
+		//List<String> numlist = (Integer)request.getSession().getAttribute("numbers");
+		String evtmsg = "";
+		int size = mob.size();
+		out.println("Sent message id: ");
+		out.println("Sent to num:" + mob.get(0));
+		for(int i = 0 ; i < size-1 ; i++){
+		//for(String numstring: numlist){
+			//evtmsg = (String)request.getSession().getAttribute("smsmsg");
+			evtmsg = (String)request.getParameter("msg");
 			params.put("From", twilionum);
-			params.put("Body", request.getSession().getParameter("smsmsg"));
+			params.put("Body", evtmsg);
 			//params.put("To", "+63"+voter[i]);
-			params.put("To", "+63"+numstring);
+			params.put("To", "+63"+mob.get(i));
 			
 			SmsFactory msgFactory = tw_client.getAccount().getSmsFactory();
 			try {
@@ -102,8 +111,11 @@ public class TwilioServlet extends HttpServlet {
 			catch (TwilioRestException e) {
 				throw new ServletException(e);
 			}
+			//out.println("Sent to num:" + numlist.get(i));
 		}
-        out.println("Sent message id: " + msg.getSid());
+		}catch (Exception e){
+		}
+        //out.println("Sent message id: " + msg.getSid());
     }
 
     /**
@@ -115,7 +127,7 @@ public class TwilioServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
         /*PrintWriter out = response.getWriter();

@@ -16,11 +16,28 @@
 	});
 	*/
 	function validDate(date, theInput) {
+		campaignDate = getCampaignDate();
 		todayDate = getTodaysDate();
-		if (date > todayDate)
+		if (date > campaignDate)
+			theInput.value = campaignDate;
+		if (date < todayDate)
 			theInput.value = todayDate;
 	}
 
+	function getCampaignDate(){
+		date = new Date("May 07, 2016");
+		day = date.getDate();
+		month = date.getMonth() + 1;
+		year = date.getFullYear();
+
+		if (month < 10) month = "0" + month;
+		if (day < 10) day = "0" + day;
+
+		today = year + "-" + month + "-" + day;	
+	
+		return today;
+	}
+	
 	function getTodaysDate(){
 		date = new Date();
 		day = date.getDate();

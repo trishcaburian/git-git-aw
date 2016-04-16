@@ -7,8 +7,8 @@
     </head>
     <body>
     
-        <h2>Comelec </h2>
-
+        <h2>Comelec Registration Page</h2>
+		<h4>Git Git Aw!</h4>
         <form method="POST" action="/Login">
 
         	Username: <input type="text" name="uname"/> <br/>
