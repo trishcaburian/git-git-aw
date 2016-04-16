@@ -66,7 +66,44 @@ public class TwilioServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+		PrintWriter out = response.getWriter();
+        Sms msg = null;
+        TwilioConnect connect = new TwilioConnect();
+		
+        String authToken = connect.getAuthToken();
+        String accountSID = connect.getAcctSID();
+        TwilioRestClient tw_client = new TwilioRestClient(accountSID, authToken);
+        
+        Map<String, String> params = new HashMap<String, String>();
+        
+		String twilionum = "+12675441449";
+		
+		/*
+		String[] voter = new String[3]; //maybe change it to a more dynamic array/list?
+		voter[0] = "9274793339";
+		voter[1] = "9179489196";
+		voter[2] = "9334132146";
+		*/
+		
+		List<String> numlist = request.getSession().getParameter("numbers");
+		
+		//for(int i = 0 ; i < voter.length ; i++){
+		for(String numstring; numlist){
+			params.put("From", twilionum);
+			params.put("Body", request.getSession().getParameter("smsmsg"));
+			//params.put("To", "+63"+voter[i]);
+			params.put("To", "+63"+numstring);
+			
+			SmsFactory msgFactory = tw_client.getAccount().getSmsFactory();
+			try {
+				msg = msgFactory.create(params);
+			}
+			catch (TwilioRestException e) {
+				throw new ServletException(e);
+			}
+		}
+        out.println("Sent message id: " + msg.getSid());
     }
 
     /**
@@ -81,7 +118,7 @@ public class TwilioServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        PrintWriter out = response.getWriter();
+        /*PrintWriter out = response.getWriter();
         Sms msg = null;
         TwilioConnect connect = new TwilioConnect();
 		
@@ -92,15 +129,21 @@ public class TwilioServlet extends HttpServlet {
         Map<String, String> params = new HashMap<String, String>();
         
 		String twilionum = "+12675441449";
-		String[] voter = new String[3];
-		voter[0] = "+639274793339";
-		voter[1] = "+639179489196";
-		voter[2] = "+639334132146";
-		int i = 0;
-		for(i = 0 ; i < voter.length ; i++){
+		
+		//list
+		String[] voter = new String[3]; //maybe change it to a more dynamic array/list?
+		voter[0] = "9274793339";
+		voter[1] = "9179489196";
+		voter[2] = "9334132146";
+		
+		List<String> numlist = request.getSession().getParameter("numbers");
+		
+		for(int i = 0 ; i < voter.length ; i++){
+		//for(String numstring; numlist){
 			params.put("From", twilionum);
-			params.put("Body", request.getParameter("smsmsg"));
-			params.put("To", voter[i]);
+			params.put("Body", request.getSession().getParameter("smsmsg"));
+			params.put("To", "+63"+voter[i]);
+			//params.put("To", "+63"+numstring);
 			
 			SmsFactory msgFactory = tw_client.getAccount().getSmsFactory();
 			try {
@@ -110,7 +153,7 @@ public class TwilioServlet extends HttpServlet {
 				throw new ServletException(e);
 			}
 		}
-        out.println("Sent message id: " + msg.getSid());
+        out.println("Sent message id: " + msg.getSid());*/
     }
 
     /**
