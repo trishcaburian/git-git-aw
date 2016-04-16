@@ -34,19 +34,26 @@ public class EventRegServlet extends HttpServlet
 			PostgreSQLClient db = new PostgreSQLClient();
 
 			db.addEvent(eName, eDesc, eDate, startTime, endTime, eventLocation);
-			out.println("oks addEvent :)");
+			
+			String message = "Event: " + eName+". "+eDesc+". Where: "+eventLocation+". When: "+eDate+" from "+startTime+" to "+endTime+".";
+
+			
 
 			int ehID = db.getEID(eName);
-			out.println(ehID);
-			int locID = db.getLocID(eventLocation);
-			out.println(locID);
-			db.addEvent_loc(ehID, locID);
-			out.println("yey!");
 
 			List<String> mob = db.getMobile(ehID);
+
+			request.getSession().setAttribute("smsmsg", message);
+			request.getSession().setAttribute("numbers", mob);
+			/*
         	out.println("result:");
         	for(String s: mob)
         		out.println(s);
+        	*/
+
+        	response.setContentType("text/html");
+            response.setStatus(200);
+            request.getRequestDispatcher("/notif.jsp").forward(request, response);
 				
 			}catch(Exception e){
 				out.println(e.getMessage());
