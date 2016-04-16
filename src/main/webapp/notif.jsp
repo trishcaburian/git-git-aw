@@ -23,9 +23,8 @@
 
 	<form method="POST" action="/SetNotif">
 	
-		<input type="radio" name="notif" value="all"/>All
-		</br/><br/>
-		<input type="radio" name="notif" value="location"/>Selected Locations:<br/>
+		<br/>
+		<h5>Selected Locations:</h5>
 		<h5>National Capital Region</h5>
 		<input type="checkbox" name="loc" value="caloocan"/>Caloocan<br/>
 		<input type="checkbox" name="loc" value="makati"/>Makati<br/>

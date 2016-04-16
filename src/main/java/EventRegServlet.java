@@ -22,53 +22,35 @@ public class EventRegServlet extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	PrintWriter out = response.getWriter();
 		try{
-		String eName = request.getParameter("eventName");
-    	String eDesc = request.getParameter("eventDesc");
-		String eventLocation = request.getParameter("eventLocation");
+			String eName = request.getParameter("eventName");
+	    	String eDesc = request.getParameter("eventDesc");
+			String eventLocation = request.getParameter("eventLocation");
+			
+	    	String eDate = request.getParameter("datepicker").toString();
+			String startTime = request.getParameter("startTime").toString();
+	    	String endTime = request.getParameter("endTime").toString();
 		
-    	String eDate = request.getParameter("datepicker").toString();
-		String startTime = request.getParameter("startTime").toString();
-    	String endTime = request.getParameter("endTime").toString();
-    	//out.println("oks date and time :)");
-		
-		/*SimpleDateFormat format = new SimpleDateFormat("MMddyyyy");
-		out.println("oks simpledateformat :)");
-        Date dateparsed = format.parse(eDate);
-		out.println("oks dateparsed :)");*/
-        //java.sql.Date sql = new java.sql.Date(parsed.getTime());
-		
-		//format = new SimpleDateFormat("hh:mm aaa");		
-		
-		/*Time startTimeParsed = new Time(startTime);
-		Time endTimeParsed = new Time(endTime);*/
-		
-    	
 
-		PostgreSQLClient db = new PostgreSQLClient();
-		//out.println("oks postgre instantiate :)");
-		//	db.createEventTable();
-			//out.println("oks createEventTable :)");
+			PostgreSQLClient db = new PostgreSQLClient();
+
 			db.addEvent(eName, eDesc, eDate, startTime, endTime, eventLocation);
 			out.println("oks addEvent :)");
-		//	List<EventInfo> eventLoc = db.getAllEvents();
-			//out.println("oks List EventInfo :)");
-			/*
-			for(int i =0;i<eventLoc.size();i++){
-				out.println(eventLoc.get(i));
-			}*/
-			int ehID = db.getEID("sample");
+
+			int ehID = db.getEID(eName);
 			out.println(ehID);
-			int locID = db.getLocID("manila");
+			int locID = db.getLocID(eventLocation);
 			out.println(locID);
 			db.addEvent_loc(ehID, locID);
 			out.println("yey!");
-			
-		}catch(Exception e){
-			out.println(e.getMessage());
-		}
 
-		//out.println(row);
-		//out.println(total);
+			List<String> mob = db.getMobile(ehID);
+        	out.println("result:");
+        	for(String s: mob)
+        		out.println(s);
+				
+			}catch(Exception e){
+				out.println(e.getMessage());
+			}
 		
     }
 }

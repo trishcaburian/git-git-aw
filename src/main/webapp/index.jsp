@@ -17,6 +17,7 @@
         </form>
         <br/>
         <a href="/register.jsp">Register!</a>
+        <a href="/events.jsp">Publicize Event</a>
         
     </body>
 </html>

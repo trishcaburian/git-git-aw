@@ -21,10 +21,7 @@ public class SendNotif extends HttpServlet {
 
         try{
 
-        	List<String> mob = db.getMobile(loc);
-        	out.println("result:");
-        	for(String s: mob)
-        		out.println(s);
+        	
 
         }catch(Exception e){
         	out.println(e.getMessage());

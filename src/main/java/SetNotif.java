@@ -12,33 +12,27 @@ public class SetNotif extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String choice = request.getParameter("notif");
 		String uname = (String)request.getSession().getAttribute("uname");
 
+		try{
+			PostgreSQLClient db = new PostgreSQLClient();
 
-		if(choice.equals("location")){
+			String[] loc = request.getParameterValues("loc");
 
-			try{
-				PostgreSQLClient db = new PostgreSQLClient();
+			for(String s: loc){
 
-				String[] loc = request.getParameterValues("loc");
-
-				for(String s: loc){
-
-					int locid = db.getLocID(s);
-					db.addUserLoc(uname, locid);
-				}
-
-				request.setAttribute("notifmsg", "Notification Update Successful!");
-
-			}catch(Exception e){
-				request.setAttribute("notifmsg", e.getMessage());
-			}finally{
-				response.setContentType("text/html");
-            	response.setStatus(200);
-            	request.getRequestDispatcher("/notif.jsp").forward(request, response);
+				int locid = db.getLocID(s);
+				db.addUserLoc(uname, locid);
 			}
+
+			request.setAttribute("notifmsg", "Notification Update Successful!");
+
+		}catch(Exception e){
+			request.setAttribute("notifmsg", e.getMessage());
+		}finally{
+			response.setContentType("text/html");
+            response.setStatus(200);
+            request.getRequestDispatcher("/notif.jsp").forward(request, response);
 		}
-    	
-    }
+	}
 }
